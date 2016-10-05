@@ -1,17 +1,23 @@
 //your code here
 Particle[] bob;
+int x1 = -10;
+int x2 = 840;
+boolean running = false;
 void setup()
 {
 	size(800,800);
-	background(0);
 	bob = new Particle[200];
 	for( int i = 0; i < bob.length; i++ )
 	{
 		if(i%2 == 0)
 		{
+			bob[i] = new NormalParticle();
+		}
+		else if(i%3 == 0)
+		{
 			bob[i] = new OddballParticle();
 		}
-		else
+		else 
 		{
 			bob[i] = new JumboParticle();
 		}
@@ -19,17 +25,62 @@ void setup()
 }
 void draw()
 {
-	for( int i = 0; i < bob.length; i++ )
+	background(0);
+	if (running)
 	{
-		bob[i].move();
-		bob[i].show();
+		fill(255,0,0);
+		ellipse(x1, 400, 10, 10);
+		fill(255);
+		ellipse(x2, 400, 40, 40);
+		x1 = x1 + 2;
+		x2 = x2 - 2;
+		if (x1 >= 400 || x2 <= 400)
+		{
+			for( int i = 0; i < bob.length; i++ )
+			{
+				bob[i].move();
+				bob[i].show();
+			}
+		}
+
 	}
+
+}
+void mousePressed()
+{
+	running = true;
 }
 interface Particle
 {
 	//your code here
 	public void move();
 	public void show();
+}
+class NormalParticle implements Particle
+{
+	float myX, myY, speed, angle;
+	int shade;
+	NormalParticle()
+	{
+		myX = 400;
+		myY = 400;
+		shade = (int)(Math.random()*255);
+		speed = (float)(Math.random()*7)-3;
+		angle = (float)(Math.random()*(2*Math.PI)); 
+	}
+	public void move()
+	{
+		myX += Math.cos(angle)*(speed);
+		myY += Math.sin(angle)*(speed);
+		//angle += .01;
+	}
+	public void show()
+	{
+		noStroke();
+		fill(255,0,0);
+		//fill((float)shade,(float)shade,(float)shade);
+		ellipse(myX, myY, 10, 10);
+	}
 }
 class OddballParticle implements Particle //uses an interface
 {
@@ -48,42 +99,23 @@ class OddballParticle implements Particle //uses an interface
 	{
 		myX += Math.cos(angle)*(speed);
 		myY += Math.sin(angle)*(speed);
-		angle += .01;
+		//angle += .01;
 	}
 	public void show()
 	{
 		noStroke();
-		fill(0);
+		fill(255,141,141);
 		//fill((float)shade,(float)shade,(float)shade);
-		ellipse(myX, myY, 10, 10);
+		ellipse(myX, myY, 15, 15);
 	}
-
 }
-class JumboParticle implements Particle //uses inheritance
+class JumboParticle extends OddballParticle //uses inheritance
 {
-	//your code here
-	float myX, myY, speed, angle;
-	int shade;
-	JumboParticle()
-	{
-		myX = 400;
-		myY = 400;
-		shade = (int)(Math.random()*255);
-		speed = (float)(Math.random()*7)-3;
-		angle = (float)(Math.random()*(2*Math.PI)); 
-	}
-	public void move()
-	{
-		myX += Math.cos(angle)*(speed);
-		myY += Math.sin(angle)*(speed);
-		angle += .01;
-	}
 	public void show()
 	{
 		noStroke();
 		fill(255);
 		//fill((float)shade,(float)shade,(float)shade);
-		ellipse(myX, myY, 10, 10);
+		ellipse(myX, myY, 25, 25);
 	}
 }
-
