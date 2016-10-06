@@ -3,59 +3,68 @@ Particle[] bob;
 int x1 = -10;
 int x2 = 840;
 boolean running = false;
+boolean showOriginalParticles = false;
 void setup()
-{
-	size(800,800);
-	bob = new Particle[200];
-	for( int i = 0; i < bob.length; i++ )
 	{
-		if(i%2 == 0)
-		{
-			bob[i] = new NormalParticle();
-		}
-		else if(i%3 == 0)
-		{
-			bob[i] = new OddballParticle();
-		}
-		else 
-		{
-			bob[i] = new JumboParticle();
-		}
-	}
+ 	size(800,800);
+ 	bob = new Particle[200];
+ 	for( int i = 0; i < bob.length; i++ )
+ 	{
+ 		if(i%2 == 0)
+ 		{
+ 			bob[i] = new NormalParticle();
+ 		}
+ 		else if(i%3 == 0)
+ 		{
+ 			bob[i] = new OddballParticle();
+ 		}
+ 		else 
+ 		{
+ 			bob[i] = new JumboParticle();
+ 		}
+ 	}
 }
 void draw()
-{
-	background(0);
-	if (running)
 	{
-		fill(255,0,0);
-		ellipse(x1, 400, 10, 10);
-		fill(255);
-		ellipse(x2, 400, 40, 40);
-		x1 = x1 + 2;
-		x2 = x2 - 2;
-		if (x1 >= 400 || x2 <= 400)
-		{
-			for( int i = 0; i < bob.length; i++ )
-			{
-				bob[i].move();
-				bob[i].show();
-			}
-		}
+ 	background(0);
+ 	if (running)
+ 	{
+		if(x1 <= 390 || x2 >= 410)
+ 		{
+			fill(255,0,0);
+			ellipse(x1, 400, 10, 10);
+			fill(255);
+			ellipse(x2-12, 393, 25, 25);
+			ellipse(x2+3, 388, 25, 25);
+			ellipse(x2+13, 397, 25, 25);
+			ellipse(x2-9, 413, 25, 25);
+			ellipse(x2+12, 414, 25, 25);
+			ellipse(x2-14, 403, 25, 25);
+			ellipse(x2, 400, 25, 25);
+ 		x1 = x1 + 2;
+ 		x2 = x2 - 2;			
+ 		}	
+ 		else
+ 		{
+ 			for( int i = 0; i < bob.length; i++ )
+ 			{
+ 				bob[i].move();
+ 				bob[i].show();
+ 			}
+ 		}
 
-	}
-
+ 	}
 }
 void mousePressed()
 {
-	running = true;
+ 	running = true;
 }
 interface Particle
 {
-	//your code here
-	public void move();
-	public void show();
-}
+ 	//your code here
+ 	public void move();
+ 	public void show();
+ }
 class NormalParticle implements Particle
 {
 	float myX, myY, speed, angle;
